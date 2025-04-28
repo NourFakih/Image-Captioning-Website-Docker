@@ -1,36 +1,21 @@
-# .github/workflows/publish-docker-image.yml
-name: Publish Docker image
+name: Publish image to Docker Hub
 
-# Trigger manually or on push to main
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
-  publish:
+  publish_image:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Check out the code
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Build Docker image
+        run: |
+          docker build . -t nourfakih2/image-captioning:latest
 
-      # 4. Log in to Docker Hub
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: nourfakih2
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}  # use a Personal Access Token :contentReference[oaicite:0]{index=0}
-
-      # 5. Build the image and push it
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: |
-            nourfakih2/image-captioning:latest          # "latest" tag
-            nourfakih2/image-captioning:${{ github.sha }}  # immutable commit SHA tag :contentReference[oaicite:1]{index=1}
+      - name: Publish Docker image
+        run: |
+          docker login -u nourfakih2 -p"${{ secrets.DOCKER_HUB_USERNAME }}"
+          docker push nourfakih2/image-captioning:latest
