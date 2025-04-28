@@ -32,5 +32,5 @@ jobs:
           context: .
           push: true
           tags: |
-            nourfakih2/hello-docker-hub:latest          # "latest" tag
-            nourfakih2/hello-docker-hub:${{ github.sha }}  # immutable commit SHA tag :contentReference[oaicite:1]{index=1}
+            nourfakih2/image-captioning:latest          # "latest" tag
+            nourfakih2/image-captioning:${{ github.sha }}  # immutable commit SHA tag :contentReference[oaicite:1]{index=1}
